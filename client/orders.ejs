@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Orders</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h2>My Orders</h2>
+            <div class="orders-list">
+                <% if (orders.length===0) { %>
+                    <p style="color:#888;">No orders yet.</p>
+                    <% } %>
+                        <% orders.forEach(order=> { %>
+                            <div class="order-card">
+                                <div class="order-main">
+                                    <img class="order-img"
+                                        src="<%= order.service?.image || 'https://via.placeholder.com/90x70' %>"
+                                        alt="Service" />
+                                    <div class="order-info">
+                                        <div class="order-service">
+                                            <b>
+                                                <%= order.service?.name %>
+                                            </b>
+                                            <span class="order-status <%= order.status %>">
+                                                <%= order.status %>
+                                            </span>
+                                        </div>
+                                        <div class="order-date">
+                                            <span>Ordered on: <%= order.createdAt.toLocaleDateString() %>
+                                                    <%= order.createdAt.toLocaleTimeString([], { hour: '2-digit' ,
+                                                        minute: '2-digit' }) %></span>
+                                        </div>
+                                        <div class="order-fields">
+                                            <div>
+                                                <label>Address:</label>
+                                                <form method="POST" action="/orders/<%= order._id %>/edit"
+                                                    style="display:inline;">
+                                                    <input type="text" name="address" value="<%= order.address || '' %>"
+                                                        required>
+                                                    <button type="submit" class="btn">Update</button>
+                                                </form>
+                                            </div>
+                                            <div>
+                                                <label>Contact Number:</label>
+                                                <form method="POST" action="/orders/<%= order._id %>/edit-phone"
+                                                    style="display:inline;">
+                                                    <input type="tel" name="phone" value="<%= order.phone || '' %>"
+                                                        pattern="[0-9+ ]*" required>
+                                                    <button type="submit" class="btn">Update</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <% if (order.status==='pending' ) { %>
+                                        <form method="POST" action="/orders/<%= order._id %>/cancel"
+                                            style="display:inline;">
+                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                        </form>
+                                        <% } else if (order.status==='accepted' ) { %>
+                                            <span class="order-note">Accepted - cannot cancel</span>
+                                            <% } else { %>
+                                                <span class="order-note" style="color:#888;">No actions</span>
+                                                <% } %>
+                                </div>
+                            </div>
+                            <% }) %>
+            </div>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

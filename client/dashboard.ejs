@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="how-it-works card">
+                    <h2>How It Works</h2>
+                    <div class="step">
+                        <span class="icon">🔍</span>
+                        <div>
+                            <b>Find Services</b>
+                            <p>Browse through our wide range of categories and services to find exactly what you need.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="icon">📅</span>
+                        <div>
+                            <b>Book Appointments</b>
+                            <p>Select a suitable date and time to book your service with just a few clicks.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="icon">👍</span>
+                        <div>
+                            <b>Get Work Done</b>
+                            <p>Experience quality service and leave feedback to help others make informed decisions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="featured-categories card">
+                    <h2>Featured Categories</h2>
+                    <div class="category-grid">
+                        <% categories.forEach(cat=> { %>
+                            <div class="category-card">
+                                <span class="icon">⭐</span>
+                                <span>
+                                    <%= cat.name %>
+                                </span>
+                            </div>
+                            <% }) %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="featured-products card">
+                <h2>Featured Products</h2>
+                <div class="product-grid">
+                    <% featuredServices.forEach(service=> { %>
+                        <div class="product-card">
+                            <img src="<%= service.image || 'https://via.placeholder.com/100x80' %>" alt="Service" />
+                            <div class="product-info">
+                                <b>
+                                    <%= service.name %>
+                                </b>
+                                <p>
+                                    <%= service.description %>
+                                </p>
+                                <span class="price">$<%= service.price %></span>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>
