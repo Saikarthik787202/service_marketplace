@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Service</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .drop-area {
+            width: 320px;
+            height: 180px;
+            border: 2px dashed #007bff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: #f8f9fa;
+            color: #007bff;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .drop-area.dragover {
+            border-color: #0056b3;
+            background: #e3f0ff;
+        }
+
+        .drop-area img {
+            max-width: 90%;
+            max-height: 120px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: #fff;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h2>Add New Service</h2>
+            <form method="POST" action="/provider/services">
+                <label>Name:</label>
+                <input type="text" name="name" required><br>
+                <label>Description:</label>
+                <textarea name="description" required></textarea><br>
+                <label>Image:</label>
+                <div class="drop-area" id="drop-area">
+                    <span id="drop-text">Drag & drop or click to upload image</span>
+                    <img id="preview" src="" alt="" style="display:none;">
+                    <input type="file" id="fileElem" accept="image/*">
+                    <input type="hidden" name="image" id="image-url">
+                </div>
+                <label>Category:</label>
+                <select name="category">
+                    <% categories.forEach(cat=> { %>
+                        <option value="<%= cat._id %>">
+                            <%= cat.name %>
+                        </option>
+                        <% }) %>
+                </select><br>
+                <label>Price:</label>
+                <input type="number" name="price" required><br>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <script>
+            // For demo, just use base64. For production, upload to server or cloud.
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('fileElem');
+            const preview = document.getElementById('preview');
+            const dropText = document.getElementById('drop-text');
+            const imageUrlInput = document.getElementById('image-url');
+
+            dropArea.addEventListener('click', () => fileInput.click());
+            dropArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropArea.classList.add('dragover');
+            });
+            dropArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('dragover');
+            });
+            dropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                handleFile(file);
+            });
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                handleFile(file);
+            });
+            function handleFile(file) {
+                if (!file) return;
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file.');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    dropText.style.display = 'none';
+                    imageUrlInput.value = e.target.result; // base64 for demo
+                };
+                reader.readAsDataURL(file);
+            }
+        </script>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>
