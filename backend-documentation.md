@@ -1,4 +1,4 @@
-Absolutely! Here are **separate documentation sections** for the **backend** and **frontend** of your project, written for clarity and maintainability.
+
 
 ---
 
@@ -127,11 +127,5 @@ app.js          // Main entry point
 
 ---
 
-## Extending
 
-- Add more models/controllers as needed.
-- Add API endpoints for mobile/app use.
-- Add more advanced authentication (JWT, OAuth) if required.
-
----
 
