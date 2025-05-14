@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Category</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h2>Add Category</h2>
+            <form method="POST" action="/admin/categories">
+                <label>Name:</label>
+                <input type="text" name="name" required>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

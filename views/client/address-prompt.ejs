@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Enter Address</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h3>Please enter your address and contact number to complete the purchase</h3>
+            <form method="POST" action="/order">
+                <input type="hidden" name="serviceId" value="<%= serviceId %>">
+                <label>Address:</label>
+                <input type="text" name="address" required>
+                <label>Contact Number:</label>
+                <input type="tel" name="phone" inputmode="numeric" pattern="[0-9+ ]*" required>
+                <div class="note" style="font-size:0.95em;color:#666;">
+                    Used only for delivery updates or order issues.
+                </div>
+                <button type="submit">Continue</button>
+            </form>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

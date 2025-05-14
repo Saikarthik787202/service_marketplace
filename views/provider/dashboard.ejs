@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Provider Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h2>Provider Dashboard</h2>
+            <a href="/provider/orders" class="edit-btn" style="margin-bottom:20px;display:inline-block;">View Orders</a>
+            <h3>Your Services</h3>
+            <table>
+                <tr>
+                    <th>Image</th>
+                    <th>Service</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                <% services.forEach(service=> { %>
+                    <tr>
+                        <td>
+                            <% if(service.image) { %>
+                                <img src="<%= service.image %>"
+                                    style="width:70px;height:44px;object-fit:cover;border-radius:4px;">
+                                <% } %>
+                        </td>
+                        <td>
+                            <%= service.name %>
+                        </td>
+                        <td>
+                            <%= service.description %>
+                        </td>
+                        <td>
+                            <%= service.category?.name %>
+                        </td>
+                        <td>$<%= service.price %>
+                        </td>
+                        <td>
+                            <form method="POST" action="/provider/services/<%= service._id %>/delete"
+                                style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </table>
+            <a href="/provider/services/new"><button>Add New Service</button></a>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>
