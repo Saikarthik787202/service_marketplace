@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h2>Welcome, Admin!</h2>
+            <ul>
+                <li><a href="/admin/categories">Manage Categories</a></li>
+                <li><a href="/admin/revenue">View Revenue Dashboard</a></li>
+                <li><a href="/admin/services/deleted">View recently deleted services</a></li>
+                <!-- Add more admin links or stats here -->
+            </ul>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

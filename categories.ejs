@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Categories</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h2>Categories</h2>
+            <a href="/admin/categories/new"><button>Add Category</button></a>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+                <% categories.forEach(cat=> { %>
+                    <tr>
+                        <td>
+                            <%= cat.name %>
+                        </td>
+                        <td>
+                            <form method="POST" action="/admin/categories/<%= cat._id %>/delete"
+                                style="display:inline;">
+                                <button type="submit" style="background:#dc3545;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </table>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>
