@@ -1,5 +1,6 @@
 const Category = require('../models/Category');
 const Order = require('../models/Order');
+const Service = require('../models/Service'); // <-- Make sure this is included
 
 // Dashboard
 exports.dashboard = (req, res) => {
@@ -53,4 +54,53 @@ exports.addCategory = async (req, res) => {
 exports.deleteCategory = async (req, res) => {
     await Category.findByIdAndDelete(req.params.id);
     res.redirect('/admin/categories');
+};
+
+// SOFT DELETE SERVICE (for admin)
+exports.softDeleteService = async (req, res) => {
+    try {
+        await Service.findByIdAndUpdate(req.params.id, { $set: { deletedAt: new Date() } });
+        res.redirect('/admin/services');
+    } catch (error) {
+        console.error(error);
+        res.redirect('/admin/services');
+    }
+};
+
+// Recently deleted services (admin view)
+exports.deletedServices = async (req, res) => {
+    try {
+        const services = await Service.find({ deletedAt: { $ne: null } })
+            .sort('-deletedAt')
+            .populate('provider')
+            .populate('category');
+        res.render('admin/deleted-services', { services });
+    } catch (error) {
+        console.error(error);
+        res.redirect('/admin/dashboard');
+    }
+};
+
+// Restore deleted service
+exports.restoreService = async (req, res) => {
+    try {
+        await Service.findByIdAndUpdate(req.params.id, { $set: { deletedAt: null } });
+        res.redirect('/admin/services/deleted');
+    } catch (error) {
+        console.error(error);
+        res.redirect('/admin/services/deleted');
+    }
+};
+
+// (Optional) Soft delete category (if you want to use soft delete for categories)
+exports.softDeleteCategory = async (req, res) => {
+    try {
+        const category = await Category.findById(req.params.id);
+        category.deletedAt = new Date();
+        await category.save();
+        res.redirect('/admin/categories');
+    } catch (error) {
+        console.error(error);
+        res.redirect('/admin/categories');
+    }
 };
