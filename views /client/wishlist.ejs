@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wishlist</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <div class="container">
+            <h2>My Wishlist</h2>
+            <% if (services.length===0) { %>
+                <p>Your wishlist is empty.</p>
+                <% } else { %>
+                    <div class="service-list">
+                        <% services.forEach(service=> { %>
+                            <div class="service-card">
+                                <img src="<%= service.image %>" alt="Service Image"
+                                    style="width:120px;height:80px;object-fit:cover;border-radius:6px;">
+                                <h4>
+                                    <%= service.name %>
+                                </h4>
+                                <em>
+                                    <%= service.description %>
+                                </em>
+                                <form method="POST" action="/wishlist/remove">
+                                    <input type="hidden" name="serviceId" value="<%= service._id %>">
+                                    <button type="submit"
+                                        style="background:#fff;color:#e63946;border:1px solid #e63946;">
+                                        <i class="fa fa-heart-broken"></i> Remove
+                                    </button>
+                                </form>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <% } %>
+        </div>
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

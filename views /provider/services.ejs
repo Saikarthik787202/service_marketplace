@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Services</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <div class="container">
+        <h2>Your Services</h2>
+        <form method="POST" action="/provider/services/bulk-edit">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% services.forEach(service => { %>
+                    <tr>
+                        <td><input type="checkbox" name="serviceIds" value="<%= service._id %>"></td>
+                        <td><%= service.name %></td>
+                        <td><%= service.description %></td>
+                        <td><%= service.price %></td>
+                        <td><%= service.category?.name %></td>
+                        <td>
+                            <form method="POST" action="/provider/services/<%= service._id %>/delete" style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+            <div>
+                <label for="price">New Price:</label>
+                <input type="number" name="price" id="price" placeholder="Leave blank to skip">
+                <label for="description">New Description:</label>
+                <input type="text" name="description" id="description" placeholder="Leave blank to skip">
+            </div>
+            <button type="submit">Bulk Update Selected</button>
+        </form>
+        <a href="/provider/services/new">Add New Service</a> |
+        <a href="/provider/services/deleted">View Recently Deleted Services</a>
+    </div>
+    <%- include('../partials/footer') %>
+</body>
+</html>

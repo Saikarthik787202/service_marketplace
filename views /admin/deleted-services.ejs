@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recently Deleted Services</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <div class="container">
+        <h2>Recently Deleted Services</h2>
+        <table>
+            <tr>
+                <th>Service</th>
+                <th>Provider</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Deleted At</th>
+                <th>Action</th>
+            </tr>
+            <% services.forEach(service=> { %>
+                <tr>
+                    <td><%= service.name %></td>
+                    <td><%= service.provider?.name %></td>
+                    <td><%= service.category?.name %></td>
+                    <td>$<%= service.price %></td>
+                    <td><%= service.deletedAt ? service.deletedAt.toLocaleString() : '' %></td>
+                    <td>
+                        <form method="POST" action="/admin/services/<%= service._id %>/restore" style="display:inline;">
+                            <button type="submit">Restore</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+    <%- include('../partials/footer') %>
+</body>
+</html>
